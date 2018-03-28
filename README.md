@@ -32,7 +32,6 @@ What am I implementing:
 - Calculating the persistent homology over <img src="https://latex.codecogs.com/svg.latex?\mathbb{Z}_2" title="Z2" />
 
 ## Laplacian eigenmaps
-
 ...
 
 See [EIGEN](#references)
