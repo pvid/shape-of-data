@@ -41,15 +41,15 @@ def rips_complex(dim, eps, data=None, dist=None,):
         raise ValueError("Either 'data', or 'dist' is needed.")
 
     if dist is None:
-        dist = _pairwise_dist(data)
+        dist = pairwise_dist(data)
 
-    graph = _neighbor_graph(dist, eps)
-    filtration = _generate_filtration(graph, dist, dim)
+    graph = neighbor_graph(dist, eps)
+    filtration = generate_filtration(graph, dist, dim)
 
     return filtration
 
 
-def _pairwise_dist(X):
+def pairwise_dist(X):
     """
     Calculate paiwise euclidean distances.
 
@@ -74,7 +74,7 @@ def _pairwise_dist(X):
     return np.sqrt(dist)
 
 
-def _neighbor_graph(dmat, eps):
+def neighbor_graph(dmat, eps):
     """
     Build the neighborhood graph.
 
@@ -94,18 +94,18 @@ def _neighbor_graph(dmat, eps):
 
     """
     graph = dict()
-    n = dmat.shape[0]
-    for i in range(n):
+    n_points = dmat.shape[0]
+    for i in range(n_points):
         graph[i] = set()
-    for i in range(n):
-        for j in range(i+1, n):
-            if dmat[i, j] < eps:
-                graph[i].add(j)
-                graph[j].add(i)
+    dmat_copy = dmat.copy()
+    dmat_copy[dmat_copy > eps] = 0
+    indices = dmat_copy.nonzero()
+    for i, j in zip(*indices):
+        graph[i].add(j)
     return graph
 
 
-def _generate_filtration(graph, dist, dim):
+def generate_filtration(graph, dist, dim):
     """
     Build filtration of a Vietoris-Rips complex.
 
@@ -151,7 +151,10 @@ def _generate_filtration(graph, dist, dim):
 
     bron_kerborsch(set(), set(graph.keys()), set())
 
-    simplices = sorted(simplices, key=lambda x: len(x))[1:]
+    simplices.sort(key=len)
+
+    # Remove the empty set
+    simplices.pop(0)
 
     val_memo = dict()
     filtration = []
@@ -173,12 +176,12 @@ def _generate_filtration(graph, dist, dim):
         val = max(val_memo[face] for face in combinations(simplex, k-1))
         val_memo[simplex] = val
         filtration.append((simplex, val))
-
-    return sorted(filtration, key=itemgetter(1))
+    filtration.sort(key=itemgetter(1))
+    return filtration
 
 
 def persistent_homology(filtration, dim):
-    """Compute persistent homology
+    """Compute persistent homology.
 
     Parameters
     ----------

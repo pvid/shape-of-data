@@ -5,9 +5,13 @@
 The purpose of this repository is to look under the hood of algorithms
 that explore the shape of data.
 
+The algorithms are not meant to be production ready. However, I am interested
+in performance as well. I will be comparing the run-time of my Python
+implementation with the C++ Dionysus library.
+
 ## Topics:
 * Topological data analysis - more precisely persistent homology
-* (TO DO) Laplacian eigenmaps (spectral embedding), Locally linear embedding
+* (TO DO) Laplacian eigenmaps (spectral embedding)
 * Spectral clustering
 
 ## Why?
@@ -28,13 +32,25 @@ that have something to do with connectedness, loops, cavities and their high dim
 counterparts. For a quick introduction with pictures, see [An introduction to persistent homology](http://bastian.rieck.ru/research/an_introduction_to_persistent_homology.pdf)
 
 What am I implementing:
-- Construction of a Vietoris-Rips complex (see paper [[FAST]](#references))
-- Calculating the persistent homology over <img src="https://latex.codecogs.com/svg.latex?\mathbb{Z}_2" title="Z2" />
+- Construction of a Vietoris-Rips complex (see paper [[1]](#references))
+- Calculating the persistent homology over ![equation](http://latex.codecogs.com/gif.latex?\mathbb{Z}_2)
 
 ## Laplacian eigenmaps
-...
 
-See [EIGEN](#references)
+I am following [[2]](#references). It uses a different algorithm
+than the scikit-learn implementation of spectral embedding.
+
+One version uses adjecency graph constructed by looking at ![equation](http://latex.codecogs.com/gif.latex?\epsilon)-neighborhoods,
+which is the first step of construction of Vietoris-Rips complex.
+
+Goals:
+* Implement the algorithm and deal with unconnected adjecency graphs
+  if possible (scikit-learn does not do that)
+* How can pesistent homology inform the choice of ![equation](http://latex.codecogs.com/gif.latex?\epsilon) in the construction?
+* How does do the eigenmaps behave with manifolds with non-zero Betti numbers?
+
+
+
 
 ## Spectral clustering
 
@@ -44,7 +60,8 @@ See [EIGEN](#references)
 
 I do plan to clean this up at some point. In the meantime:
 
-[FAST] Zomordian: [Fast Construction of the Vietoris-Rips Complex](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.210.426&rep=rep1&type=pdf)
+[1] Zomorodian, A. (2010). [Fast construction of the Vietoris-Rips complex](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.210.426&rep=rep1&type=pdf).
+ Computers & Graphics, 34(3), 263–271. https://doi.org/10.1016/j.cag.2010.03.007
 
-[EIGEN] Belkin, Niyogi [Laplacian Eigenmaps for Dimensionality Reduction and Data
-Representation](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.192.8814&rep=rep1&type=pdf)
+[2] Belkin, M., & Niyogi, P. (2003). [Laplacian Eigenmaps for Dimensionality Reduction and Data Representation](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.192.8814&rep=rep1&type=pdf).
+Neural Computation, 15(6), 1373–1396. https://doi.org/10.1162/089976603321780317

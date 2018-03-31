@@ -1,1 +1,1 @@
-from .rips import *
+from .pointcloud import PointCloud
