@@ -14,6 +14,14 @@ implementation with the C++ Dionysus library.
 * (TO DO) Laplacian eigenmaps (spectral embedding)
 * Spectral clustering
 
+## Requirements
+
+The implementation itself (so far) needs only:
+* numpy
+
+The notebook dionysus_comparison needs:
+* [Dionysus 2](https://github.com/mrzv/dionysus)
+
 ## Why?
 
 I wanted to play a bit with persistent homology, its implementation details

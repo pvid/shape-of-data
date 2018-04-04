@@ -140,3 +140,4 @@ class PointCloud(object):
                 self.distance_matrix(),
                 dim)
         )
+        return self._filtration
