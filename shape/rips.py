@@ -241,6 +241,8 @@ def persistent_homology(filtration, dim):
         j = simp_idx[simpl]
         if j not in T.keys():
             k = len(filtration[j][0])-1
+            if k > dim:
+                continue
             intervals[k].append((filtration[j][1], inf))
 
     return intervals
